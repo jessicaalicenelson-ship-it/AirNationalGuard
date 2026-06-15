@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANG Exit Questionnaire</title>
+<style>
+  :root {
+    --navy:    #1A2744;
+    --gold:    #C9A84C;
+    --sky:     #4A7FB5;
+    --steel:   #E8EDF4;
+    --white:   #FFFFFF;
+    --text:    #1C1C1E;
+    --muted:   #6B7280;
+    --danger:  #C0392B;
+    --success: #1A6B3C;
+    --radius:  10px;
+    --shadow:  0 4px 24px rgba(26,39,68,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--steel);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .ang-badge {
+    width: 40px;
+    height: 40px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+  .header-text h1 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .header-text p {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.15);
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── WRAPPER ── */
+  .form-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  /* ── INTRO CARD ── */
+  .intro-card {
+    background: var(--navy);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--gold);
+  }
+  .intro-card h2 {
+    color: var(--gold);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .intro-card p {
+    color: rgba(255,255,255,0.85);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ── SECTION CARDS ── */
+  .section-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .section-card.active { display: block; }
+  .section-card.section-group { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--sky);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .section-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+
+  /* ── FORM ELEMENTS ── */
+  .field { margin-bottom: 20px; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 7px;
+  }
+  label .req { color: var(--danger); margin-left: 2px; }
+  label .opt { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--sky);
+    box-shadow: 0 0 0 3px rgba(74,127,181,0.15);
+  }
+  textarea { resize: vertical; min-height: 100px; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
+  }
+
+  /* ── RADIO / CHECKBOX ── */
+  .options-list { display: flex; flex-direction: column; gap: 10px; }
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 420px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 15px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .option-item:hover { border-color: var(--sky); background: rgba(74,127,181,0.04); }
+  .option-item.selected {
+    border-color: var(--sky);
+    background: rgba(74,127,181,0.08);
+  }
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    accent-color: var(--sky);
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+  .option-item span {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  /* ── CONDITIONAL FIELDS ── */
+  .conditional {
+    display: none;
+    margin-top: 14px;
+    padding: 16px;
+    background: var(--steel);
+    border-radius: 8px;
+    border-left: 3px solid var(--sky);
+  }
+  .conditional.visible { display: block; }
+  .conditional label { color: var(--navy); }
+
+  /* ── FIELD GROUPS ── */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+
+  /* ── FITNESS SCORE ── */
+  .score-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-back {
+    background: var(--steel);
+    color: var(--navy);
+  }
+  .btn-back:hover { background: #D1D9E8; }
+  .btn-next {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .btn-next:hover { background: var(--sky); }
+  .btn-submit {
+    background: var(--gold);
+    color: var(--navy);
+    flex: 2;
+  }
+  .btn-submit:hover { background: #B8963E; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ── SECTION COUNTER ── */
+  .step-counter {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 14px;
+    font-weight: 500;
+  }
+
+  /* ── SUCCESS SCREEN ── */
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+  }
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--navy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+  #success-screen h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  #success-screen p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 360px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .recruiter-card {
+    margin-top: 28px;
+    background: var(--navy);
+    border-radius: var(--radius);
+    padding: 20px;
+    color: var(--white);
+    text-align: left;
+  }
+  .recruiter-card h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .recruiter-card p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.85); }
+
+  /* ── ERROR STATE ── */
+  .field-error {
+    font-size: 12px;
+    color: var(--danger);
+    margin-top: 5px;
+    display: none;
+  }
+  .field-error.visible { display: block; }
+  input.error, select.error, textarea.error {
+    border-color: var(--danger);
+  }
+
+  /* ── SPINNER ── */
+  .spinner { display: none; }
+  .spinner.visible {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: var(--white);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── ALERT ── */
+  .alert {
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .alert.error { background: #FEE2E2; color: #991B1B; display: block; }
+  .alert.success-msg { background: #D1FAE5; color: var(--success); display: block; }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="ang-badge">ANG</div>
+    <div class="header-text">
+      <h1>Air National Guard</h1>
+      <p>Active Duty Exit Questionnaire</p>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</header>
+
+<!-- ══ MAIN ══ -->
+<main class="form-wrapper">
+
+  <!-- INTRO -->
+  <div class="intro-card" id="introCard">
+    <h2>Welcome, Separatee</h2>
+    <p>Congratulations on completing your active duty service commitment. This questionnaire helps determine whether the Air National Guard is a good fit for your next chapter. Your answers are confidential and used only to connect you with the right opportunities. Takes about 5–7 minutes.</p>
+  </div>
+
+  <div id="alertBox" class="alert"></div>
+
+  <!-- ══ SECTION 1: Personal Information ══ -->
+  <div class="section-card active" id="section-1">
+    <div class="section-label">Section 1 of 9</div>
+    <div class="section-title">Personal Information</div>
+    <div class="section-desc">We use this to identify your record and contact you. No SSN is collected.</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="rank">Rank <span class="req">*</span></label>
+        <select id="rank" name="rank">
+          <option value="">Select rank</option>
+          <optgroup label="Enlisted">
+            <option>AB</option><option>Amn</option><option>A1C</option><option>SrA</option>
+            <option>SSgt</option><option>TSgt</option><option>MSgt</option><option>SMSgt</option><option>CMSgt</option>
+          </optgroup>
+          <optgroup label="Officer">
+            <option>2Lt</option><option>1Lt</option><option>Capt</option><option>Maj</option>
+            <option>Lt Col</option><option>Col</option><option>Brig Gen</option>
+          </optgroup>
+        </select>
+        <span class="field-error" id="rank-err">Please select your rank.</span>
+      </div>
+      <div class="field">
+        <label for="fullName">Full Name <span class="req">*</span></label>
+        <input type="text" id="fullName" name="fullName" placeholder="Last, First MI" autocomplete="name">
+        <span class="field-error" id="fullName-err">Please enter your full name.</span>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="email">Personal Email <span class="req">*</span></label>
+        <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email">
+        <span class="field-error" id="email-err">Please enter a valid email address.</span>
+      </div>
+      <div class="field">
+        <label for="phone">Cell Phone <span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" autocomplete="tel">
+        <span class="field-error" id="phone-err">Please enter your cell phone number.</span>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="afsc">AFSC <span class="req">*</span></label>
+        <input type="text" id="afsc" name="afsc" placeholder="e.g. 3D0X2" maxlength="7">
+        <span class="field-error" id="afsc-err">Please enter your AFSC.</span>
+      </div>
+      <div class="field">
+        <label for="baseAssigned">Base Assigned <span class="req">*</span></label>
+        <input type="text" id="baseAssigned" name="baseAssigned" placeholder="e.g. Holloman AFB">
+        <span class="field-error" id="baseAssigned-err">Please enter your assigned base.</span>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="separationDate">Separation Date <span class="req">*</span></label>
+        <input type="date" id="separationDate" name="separationDate">
+        <span class="field-error" id="separationDate-err">Please select your separation date.</span>
+      </div>
+      <div class="field">
+        <label for="terminalLeaveDate">Terminal Leave Date <span class="opt">(optional)</span></label>
+        <input type="date" id="terminalLeaveDate" name="terminalLeaveDate">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-next" onclick="goNext(1)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 1 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 2: Post-Separation Plans ══ -->
+  <div class="section-card" id="section-2">
+    <div class="section-label">Section 2 of 9</div>
+    <div class="section-title">After Separation</div>
+    <div class="section-desc">Tell us about your plans following your service.</div>
+
+    <div class="field">
+      <label for="postSepLocation">Where do you plan to live after separation? <span class="req">*</span></label>
+      <input type="text" id="postSepLocation" name="postSepLocation" placeholder="City, State">
+      <span class="field-error" id="postSepLocation-err">Please enter a city and state.</span>
+    </div>
+
+    <div class="field">
+      <label>Have you secured a civilian job? <span class="req">*</span></label>
+      <div class="options-list" id="civilianJobGroup">
+        <label class="option-item">
+          <input type="radio" name="civilianJob" value="Yes" onchange="toggleConditional('civilianJobDetails', 'civilianJob', 'Yes')">
+          <span>Yes</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="civilianJob" value="No" onchange="toggleConditional('civilianJobDetails', 'civilianJob', 'Yes')">
+          <span>No</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="civilianJob" value="Pending" onchange="toggleConditional('civilianJobDetails', 'civilianJob', 'Yes')">
+          <span>Pending / Interviewing</span>
+        </label>
+      </div>
+      <span class="field-error" id="civilianJob-err">Please select an option.</span>
+
+      <div class="conditional" id="civilianJobDetails">
+        <label for="civilianJobDesc">What will you be doing?</label>
+        <input type="text" id="civilianJobDesc" name="civilianJobDesc" placeholder="Job title / brief description">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Planning to attend school or technical training? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item">
+          <input type="radio" name="schoolPlans" value="Yes – College / University">
+          <span>Yes – College / University</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="schoolPlans" value="Yes – Technical / Trade School">
+          <span>Yes – Technical / Trade School</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="schoolPlans" value="No">
+          <span>No</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="schoolPlans" value="Undecided">
+          <span>Undecided</span>
+        </label>
+      </div>
+      <span class="field-error" id="schoolPlans-err">Please select an option.</span>
+    </div>
+
+    <div class="field">
+      <label>Have you researched medical and dental insurance options outside the military? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item">
+          <input type="radio" name="insuranceResearched" value="Yes">
+          <span>Yes</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="insuranceResearched" value="No">
+          <span>No</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="insuranceResearched" value="In Progress">
+          <span>In Progress</span>
+        </label>
+      </div>
+      <span class="field-error" id="insuranceResearched-err">Please select an option.</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(2)">← Back</button>
+      <button class="btn btn-next" onclick="goNext(2)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 2 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 3: Air Force Experience – Positives ══ -->
+  <div class="section-card" id="section-3">
+    <div class="section-label">Section 3 of 9</div>
+    <div class="section-title">What you'll miss most</div>
+    <div class="section-desc">Check everything that resonates with you.</div>
+
+    <div class="field">
+      <label>Which features of Air Force service have you enjoyed the most? <span class="opt">(select all that apply)</span></label>
+      <div class="options-grid">
+        <label class="option-item"><input type="checkbox" name="positives" value="Serving my country"><span>Serving my country</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Professional team environment"><span>Professional team environment</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Cost-saving benefits (BX/Commissary)"><span>Cost-saving benefits</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Promotions and recognition"><span>Promotions & recognition</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Educational benefits"><span>Educational benefits</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Salary and entitlements"><span>Salary & entitlements</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Career field training"><span>Career field training</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Travel opportunities"><span>Travel opportunities</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Healthcare benefits"><span>Healthcare benefits</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Leadership development"><span>Leadership development</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Job stability"><span>Job stability</span></label>
+        <label class="option-item"><input type="checkbox" name="positives" value="Sense of purpose/mission"><span>Sense of purpose</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="positivesOther">Other experiences you valued <span class="opt">(optional)</span></label>
+      <input type="text" id="positivesOther" name="positivesOther" placeholder="Anything not listed above…">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(3)">← Back</button>
+      <button class="btn btn-next" onclick="goNext(3)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 3 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 4: Air Force Experience – Negatives ══ -->
+  <div class="section-card" id="section-4">
+    <div class="section-label">Section 4 of 9</div>
+    <div class="section-title">What you won't miss</div>
+    <div class="section-desc">Honest feedback helps the ANG improve. Check all that apply.</div>
+
+    <div class="field">
+      <label>Which aspects of Air Force life did you least enjoy? <span class="opt">(select all that apply)</span></label>
+      <div class="options-grid">
+        <label class="option-item"><input type="checkbox" name="negatives" value="PCS/frequent moves"><span>Frequent PCS moves</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Deployments away from family"><span>Deployments away from family</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Bureaucracy and paperwork"><span>Bureaucracy & paperwork</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Work-life balance"><span>Poor work-life balance</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Limited promotion opportunities"><span>Limited promotions</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Leadership / management issues"><span>Leadership issues</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Pay and compensation"><span>Pay & compensation</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Base location"><span>Base location</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Training requirements"><span>Training requirements</span></label>
+        <label class="option-item"><input type="checkbox" name="negatives" value="Fitness / PT standards"><span>Fitness / PT standards</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="negativesExplain">Anything you'd like to explain further? <span class="opt">(optional)</span></label>
+      <textarea id="negativesExplain" name="negativesExplain" placeholder="Brief explanation…"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(4)">← Back</button>
+      <button class="btn btn-next" onclick="goNext(4)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 4 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 5: Reason for Separation ══ -->
+  <div class="section-card" id="section-5">
+    <div class="section-label">Section 5 of 9</div>
+    <div class="section-title">Reason for Separating</div>
+    <div class="section-desc">Select the primary reason you are separating.</div>
+
+    <div class="field">
+      <label>Why are you separating? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="separationReason" value="End of Contract (ETS)"><span>End of Contract (ETS)</span></label>
+        <label class="option-item"><input type="radio" name="separationReason" value="High Year Tenure (HYT)"><span>High Year Tenure (HYT)</span></label>
+        <label class="option-item"><input type="radio" name="separationReason" value="Medical"><span>Medical</span></label>
+        <label class="option-item"><input type="radio" name="separationReason" value="Family reasons"><span>Family reasons</span></label>
+        <label class="option-item"><input type="radio" name="separationReason" value="Better civilian opportunity"><span>Better civilian opportunity</span></label>
+        <label class="option-item"><input type="radio" name="separationReason" value="Involuntary separation"><span>Involuntary separation</span></label>
+        <label class="option-item"><input type="radio" name="separationReason" value="Other"><span>Other</span></label>
+      </div>
+      <span class="field-error" id="separationReason-err">Please select a reason.</span>
+    </div>
+
+    <div class="field">
+      <label for="separationDetails">Additional context <span class="opt">(optional)</span></label>
+      <textarea id="separationDetails" name="separationDetails" placeholder="Anything you'd like the recruiter to know about your separation…" style="min-height:80px;"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(5)">← Back</button>
+      <button class="btn btn-next" onclick="goNext(5)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 5 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 6: Fitness ══ -->
+  <div class="section-card" id="section-6">
+    <div class="section-label">Section 6 of 9</div>
+    <div class="section-title">Fitness Assessment</div>
+    <div class="section-desc">Enter your most recent fitness test results.</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="fitnessDate">Last Fitness Test Date <span class="req">*</span></label>
+        <input type="date" id="fitnessDate" name="fitnessDate">
+        <span class="field-error" id="fitnessDate-err">Please enter your last fitness test date.</span>
+      </div>
+      <div class="field">
+        <label for="fitnessScore">Score <span class="req">*</span></label>
+        <input type="number" id="fitnessScore" name="fitnessScore" placeholder="e.g. 90.5" min="0" max="100" step="0.1">
+        <p class="score-hint">0–100 point scale</p>
+        <span class="field-error" id="fitnessScore-err">Please enter your fitness score.</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Rating achieved</label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="fitnessRating" value="Excellent (90–100)"><span>Excellent (90–100)</span></label>
+        <label class="option-item"><input type="radio" name="fitnessRating" value="Satisfactory (75–89.9)"><span>Satisfactory (75–89.9)</span></label>
+        <label class="option-item"><input type="radio" name="fitnessRating" value="Unsatisfactory (< 75)"><span>Unsatisfactory (&lt;75)</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Were any components exempted? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="fitnessExemptions" value="No exemptions"><span>No exemptions</span></label>
+        <label class="option-item"><input type="radio" name="fitnessExemptions" value="Cardio exempted"><span>Cardio exempted</span></label>
+        <label class="option-item"><input type="radio" name="fitnessExemptions" value="Strength components exempted"><span>Strength components exempted</span></label>
+        <label class="option-item"><input type="radio" name="fitnessExemptions" value="Full exemption (medical)"><span>Full exemption (medical)</span></label>
+      </div>
+      <span class="field-error" id="fitnessExemptions-err">Please select an option.</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(6)">← Back</button>
+      <button class="btn btn-next" onclick="goNext(6)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 6 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 7: Medical / Admin ══ -->
+  <div class="section-card" id="section-7">
+    <div class="section-label">Section 7 of 9</div>
+    <div class="section-title">Medical & Administrative</div>
+    <div class="section-desc">This information is used to assess ANG eligibility. Answers are reviewed by the recruiter only.</div>
+
+    <div class="field">
+      <label>Are you currently on a Medical Profile? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="medicalProfile" value="Yes" onchange="toggleConditional('medicalProfileDetails', 'medicalProfile', 'Yes')"><span>Yes</span></label>
+        <label class="option-item"><input type="radio" name="medicalProfile" value="No" onchange="toggleConditional('medicalProfileDetails', 'medicalProfile', 'Yes')"><span>No</span></label>
+      </div>
+      <span class="field-error" id="medicalProfile-err">Please select an option.</span>
+      <div class="conditional" id="medicalProfileDetails">
+        <label for="medicalProfileExplain">Please describe the profile and any limitations</label>
+        <textarea id="medicalProfileExplain" name="medicalProfileExplain" placeholder="Describe the medical condition or limitation…"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Are you on a Control Roster or UIF? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="controlRoster" value="Yes" onchange="toggleConditional('controlRosterDetails', 'controlRoster', 'Yes')"><span>Yes</span></label>
+        <label class="option-item"><input type="radio" name="controlRoster" value="No" onchange="toggleConditional('controlRosterDetails', 'controlRoster', 'Yes')"><span>No</span></label>
+      </div>
+      <span class="field-error" id="controlRoster-err">Please select an option.</span>
+      <div class="conditional" id="controlRosterDetails">
+        <label for="controlRosterExplain">Please explain the circumstances</label>
+        <textarea id="controlRosterExplain" name="controlRosterExplain" placeholder="Brief explanation…"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(7)">← Back</button>
+      <button class="btn btn-next" onclick="goNext(7)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 7 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 8: Other Service / ANG Interest ══ -->
+  <div class="section-card" id="section-8">
+    <div class="section-label">Section 8 of 9</div>
+    <div class="section-title">Service Plans & ANG Interest</div>
+    <div class="section-desc">Are you considering continued military service?</div>
+
+    <div class="field">
+      <label>Are you joining another military service? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="joiningOtherService" value="Yes" onchange="toggleConditional('otherServiceDetails', 'joiningOtherService', 'Yes')"><span>Yes</span></label>
+        <label class="option-item"><input type="radio" name="joiningOtherService" value="No" onchange="toggleConditional('otherServiceDetails', 'joiningOtherService', 'Yes')"><span>No</span></label>
+        <label class="option-item"><input type="radio" name="joiningOtherService" value="Considering it"><span>Considering it</span></label>
+      </div>
+      <span class="field-error" id="joiningOtherService-err">Please select an option.</span>
+      <div class="conditional" id="otherServiceDetails">
+        <label for="otherServiceBranch">Which branch?</label>
+        <select id="otherServiceBranch" name="otherServiceBranch">
+          <option value="">Select branch</option>
+          <option>Army</option>
+          <option>Army Reserve</option>
+          <option>Army National Guard</option>
+          <option>Navy</option>
+          <option>Navy Reserve</option>
+          <option>Marine Corps</option>
+          <option>Marine Corps Reserve</option>
+          <option>Coast Guard</option>
+          <option>Space Force</option>
+          <option>Air Force Reserve</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>How interested are you in ANG opportunities? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="angInterest" value="Very Interested"><span>🔥 Very Interested — tell me everything</span></label>
+        <label class="option-item"><input type="radio" name="angInterest" value="Somewhat Interested"><span>🤔 Somewhat Interested — open to hearing more</span></label>
+        <label class="option-item"><input type="radio" name="angInterest" value="Not Interested"><span>Not Interested at this time</span></label>
+      </div>
+      <span class="field-error" id="angInterest-err">Please select your interest level.</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(8)">← Back</button>
+      <button class="btn btn-next" onclick="goNext(8)">Continue →</button>
+    </div>
+    <p class="step-counter">Step 8 of 9</p>
+  </div>
+
+  <!-- ══ SECTION 9: ANG Preferences ══ -->
+  <div class="section-card" id="section-9">
+    <div class="section-label">Section 9 of 9</div>
+    <div class="section-title">ANG Preferences & Contact</div>
+    <div class="section-desc">Help us connect you with the right unit and time to reach you.</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="preferredState">Preferred ANG State <span class="opt">(optional)</span></label>
+        <select id="preferredState" name="preferredState">
+          <option value="">Select state</option>
+          <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+          <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+          <option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+          <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
+          <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
+          <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+          <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
+          <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
+          <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+          <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
+          <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
+          <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
+          <option>Wisconsin</option><option>Wyoming</option><option>D.C.</option>
+          <option>Puerto Rico</option><option>Guam</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="desiredUnit">Desired ANG Unit <span class="opt">(if known)</span></label>
+        <input type="text" id="desiredUnit" name="desiredUnit" placeholder="e.g. 150th Fighter Wing">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Best time to contact you <span class="opt">(select all that apply)</span></label>
+      <div class="options-grid">
+        <label class="option-item"><input type="checkbox" name="bestContactTime" value="Morning (8am–12pm)"><span>Morning (8am–12pm)</span></label>
+        <label class="option-item"><input type="checkbox" name="bestContactTime" value="Afternoon (12pm–5pm)"><span>Afternoon (12pm–5pm)</span></label>
+        <label class="option-item"><input type="checkbox" name="bestContactTime" value="Evening (5pm–8pm)"><span>Evening (5pm–8pm)</span></label>
+        <label class="option-item"><input type="checkbox" name="bestContactTime" value="Weekends"><span>Weekends</span></label>
+        <label class="option-item"><input type="checkbox" name="bestContactTime" value="Text preferred"><span>Text preferred</span></label>
+        <label class="option-item"><input type="checkbox" name="bestContactTime" value="Email preferred"><span>Email preferred</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Would you like a benefits briefing? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="benefitsBriefing" value="Yes"><span>Yes — I'd like to learn about ANG benefits</span></label>
+        <label class="option-item"><input type="radio" name="benefitsBriefing" value="No"><span>No thanks</span></label>
+        <label class="option-item"><input type="radio" name="benefitsBriefing" value="Maybe"><span>Maybe later</span></label>
+      </div>
+      <span class="field-error" id="benefitsBriefing-err">Please select an option.</span>
+    </div>
+
+    <div class="field">
+      <label>Would you like information on full-time ANG opportunities (AGR/Technician)? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="fulltimeInfo" value="Yes"><span>Yes — I'm interested in full-time roles</span></label>
+        <label class="option-item"><input type="radio" name="fulltimeInfo" value="No"><span>No — part-time only for now</span></label>
+        <label class="option-item"><input type="radio" name="fulltimeInfo" value="Maybe"><span>Open to hearing more</span></label>
+      </div>
+      <span class="field-error" id="fulltimeInfo-err">Please select an option.</span>
+    </div>
+
+    <div class="field">
+      <label for="additionalComments">Anything else you'd like your recruiter to know? <span class="opt">(optional)</span></label>
+      <textarea id="additionalComments" name="additionalComments" placeholder="Goals, questions, concerns, timeline…"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(9)">← Back</button>
+      <button class="btn btn-submit" onclick="submitForm()" id="submitBtn">
+        Submit Questionnaire
+        <span class="spinner" id="submitSpinner"></span>
+      </button>
+    </div>
+    <p class="step-counter">Step 9 of 9</p>
+  </div>
+
+  <!-- ══ SUCCESS ══ -->
+  <div id="success-screen">
+    <div class="success-icon">✓</div>
+    <h2>Questionnaire Submitted</h2>
+    <p>Thank you for your service and for taking the time to complete this. Your recruiter will review your responses and reach out soon.</p>
+    <div class="recruiter-card">
+      <h3>Your Recruiter</h3>
+      <p>
+        <strong>TSgt Richard Huerta</strong><br>
+        Air National Guard In-Service Recruiter<br>
+        📞 (575) 572-1406<br>
+        ✉️ richard.huerta.7@us.af.mil
+      </p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIGURATION — replace with your deployed Apps Script URL
+// ═══════════════════════════════════════════════════════
+const SCRIPT_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+const TOTAL_SECTIONS = 9;
+let currentSection = 1;
+
+// ── NAVIGATION ──────────────────────────────────────────
+function showSection(n) {
+  document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
+  document.getElementById(`section-${n}`).classList.add('active');
+  document.getElementById('progressFill').style.width = `${(n / TOTAL_SECTIONS) * 100}%`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  currentSection = n;
+  // Hide intro after section 1
+  document.getElementById('introCard').style.display = n === 1 ? '' : 'none';
+}
+
+function goNext(from) {
+  if (!validateSection(from)) return;
+  showSection(from + 1);
+}
+function goBack(from) {
+  showSection(from - 1);
+}
+
+// ── CONDITIONAL LOGIC ────────────────────────────────────
+function toggleConditional(panelId, groupName, triggerValue) {
+  const selected = document.querySelector(`input[name="${groupName}"]:checked`);
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  if (selected && selected.value === triggerValue) {
+    panel.classList.add('visible');
+  } else {
+    panel.classList.remove('visible');
+  }
+}
+
+// ── OPTION ITEM VISUAL STATE ─────────────────────────────
+document.addEventListener('change', function(e) {
+  const el = e.target;
+  if (el.type === 'radio') {
+    // Deselect siblings in same group
+    document.querySelectorAll(`input[name="${el.name}"]`).forEach(r => {
+      r.closest('.option-item')?.classList.remove('selected');
+    });
+    el.closest('.option-item')?.classList.add('selected');
+  }
+  if (el.type === 'checkbox') {
+    el.closest('.option-item')?.classList.toggle('selected', el.checked);
+  }
+});
+
+// ── VALIDATION ───────────────────────────────────────────
+function showErr(id, msg) {
+  const el = document.getElementById(`${id}-err`);
+  if (el) { el.textContent = msg || el.textContent; el.classList.add('visible'); }
+  const input = document.getElementById(id);
+  if (input) input.classList.add('error');
+}
+function clearErr(id) {
+  const el = document.getElementById(`${id}-err`);
+  if (el) el.classList.remove('visible');
+  const input = document.getElementById(id);
+  if (input) input.classList.remove('error');
+}
+function radioSelected(name) {
+  return !!document.querySelector(`input[name="${name}"]:checked`);
+}
+
+function validateSection(n) {
+  let ok = true;
+
+  if (n === 1) {
+    ['rank','fullName','email','phone','afsc','baseAssigned','separationDate'].forEach(id => {
+      const v = document.getElementById(id)?.value?.trim();
+      if (!v) { showErr(id); ok = false; } else { clearErr(id); }
+    });
+    // email format
+    const emailVal = document.getElementById('email')?.value?.trim();
+    if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+      showErr('email', 'Please enter a valid email address.'); ok = false;
+    }
+  }
+
+  if (n === 2) {
+    const loc = document.getElementById('postSepLocation')?.value?.trim();
+    if (!loc) { showErr('postSepLocation'); ok = false; } else clearErr('postSepLocation');
+    if (!radioSelected('civilianJob')) { showErr('civilianJob'); ok = false; } else clearErr('civilianJob');
+    if (!radioSelected('schoolPlans')) { showErr('schoolPlans'); ok = false; } else clearErr('schoolPlans');
+    if (!radioSelected('insuranceResearched')) { showErr('insuranceResearched'); ok = false; } else clearErr('insuranceResearched');
+  }
+
+  if (n === 5) {
+    if (!radioSelected('separationReason')) { showErr('separationReason'); ok = false; } else clearErr('separationReason');
+  }
+
+  if (n === 6) {
+    const fd = document.getElementById('fitnessDate')?.value;
+    const fs = document.getElementById('fitnessScore')?.value;
+    if (!fd) { showErr('fitnessDate'); ok = false; } else clearErr('fitnessDate');
+    if (!fs) { showErr('fitnessScore'); ok = false; } else clearErr('fitnessScore');
+    if (!radioSelected('fitnessExemptions')) { showErr('fitnessExemptions'); ok = false; } else clearErr('fitnessExemptions');
+  }
+
+  if (n === 7) {
+    if (!radioSelected('medicalProfile')) { showErr('medicalProfile'); ok = false; } else clearErr('medicalProfile');
+    if (!radioSelected('controlRoster')) { showErr('controlRoster'); ok = false; } else clearErr('controlRoster');
+  }
+
+  if (n === 8) {
+    if (!radioSelected('joiningOtherService')) { showErr('joiningOtherService'); ok = false; } else clearErr('joiningOtherService');
+    if (!radioSelected('angInterest')) { showErr('angInterest'); ok = false; } else clearErr('angInterest');
+  }
+
+  if (n === 9) {
+    if (!radioSelected('benefitsBriefing')) { showErr('benefitsBriefing'); ok = false; } else clearErr('benefitsBriefing');
+    if (!radioSelected('fulltimeInfo')) { showErr('fulltimeInfo'); ok = false; } else clearErr('fulltimeInfo');
+  }
+
+  return ok;
+}
+
+// ── COLLECT DATA ─────────────────────────────────────────
+function getChecked(name) {
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+              .map(el => el.value).join(', ');
+}
+function getRadio(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '';
+}
+function getVal(id) {
+  return document.getElementById(id)?.value?.trim() || '';
+}
+
+function collectFormData() {
+  return {
+    rank:                  getVal('rank'),
+    fullName:              getVal('fullName'),
+    email:                 getVal('email'),
+    phone:                 getVal('phone'),
+    afsc:                  getVal('afsc'),
+    baseAssigned:          getVal('baseAssigned'),
+    separationDate:        getVal('separationDate'),
+    terminalLeaveDate:     getVal('terminalLeaveDate'),
+    postSepLocation:       getVal('postSepLocation'),
+    civilianJob:           getRadio('civilianJob'),
+    civilianJobDesc:       getVal('civilianJobDesc'),
+    schoolPlans:           getRadio('schoolPlans'),
+    insuranceResearched:   getRadio('insuranceResearched'),
+    positives:             getChecked('positives'),
+    positivesOther:        getVal('positivesOther'),
+    negatives:             getChecked('negatives'),
+    negativesExplain:      getVal('negativesExplain'),
+    separationReason:      getRadio('separationReason'),
+    separationDetails:     getVal('separationDetails'),
+    fitnessDate:           getVal('fitnessDate'),
+    fitnessScore:          getVal('fitnessScore'),
+    fitnessRating:         getRadio('fitnessRating'),
+    fitnessExemptions:     getRadio('fitnessExemptions'),
+    medicalProfile:        getRadio('medicalProfile'),
+    medicalProfileExplain: getVal('medicalProfileExplain'),
+    controlRoster:         getRadio('controlRoster'),
+    controlRosterExplain:  getVal('controlRosterExplain'),
+    joiningOtherService:   getRadio('joiningOtherService'),
+    otherServiceBranch:    getVal('otherServiceBranch'),
+    angInterest:           getRadio('angInterest'),
+    preferredState:        getVal('preferredState'),
+    desiredUnit:           getVal('desiredUnit'),
+    bestContactTime:       getChecked('bestContactTime'),
+    benefitsBriefing:      getRadio('benefitsBriefing'),
+    fulltimeInfo:          getRadio('fulltimeInfo'),
+    additionalComments:    getVal('additionalComments'),
+  };
+}
+
+// ── SUBMIT ───────────────────────────────────────────────
+async function submitForm() {
+  if (!validateSection(9)) return;
+
+  const btn = document.getElementById('submitBtn');
+  const spinner = document.getElementById('submitSpinner');
+  const alertBox = document.getElementById('alertBox');
+
+  btn.disabled = true;
+  spinner.classList.add('visible');
+  alertBox.className = 'alert';
+  alertBox.textContent = '';
+
+  const data = collectFormData();
+
+  // If no URL configured, show demo success
+  if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') {
+    setTimeout(() => {
+      showSuccessScreen();
+    }, 1200);
+    return;
+  }
+
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    showSuccessScreen();
+  } catch (err) {
+    alertBox.className = 'alert error';
+    alertBox.textContent = 'Submission failed. Please check your connection and try again, or contact your recruiter directly.';
+    btn.disabled = false;
+    spinner.classList.remove('visible');
+  }
+}
+
+function showSuccessScreen() {
+  document.querySelectorAll('.section-card').forEach(c => c.style.display = 'none');
+  document.getElementById('introCard').style.display = 'none';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('success-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
